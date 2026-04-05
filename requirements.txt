@@ -1,0 +1,25 @@
+# LinkedIn AI Engine - ApplyPilot
+# Author: Daniyal | github.com/syed-daniyalH
+# Install all dependencies with: pip install -r requirements.txt
+
+# Browser Automation
+selenium>=4.0.0
+undetected-chromedriver>=3.5.0
+
+# GUI Alerts & Input
+pyautogui>=0.9.54
+
+# Web Dashboard
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# AI Providers
+openai>=1.0.0
+google-generativeai>=0.5.0
+
+# Resume Generation
+python-docx>=1.1.0
+fpdf>=1.7.2
+
+# Utilities
+setuptools>=65.0.0
