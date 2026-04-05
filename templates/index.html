@@ -272,7 +272,7 @@
                         <th style="width: 60px;">#</th>
                         <th>Job Information</th>
                         <th>HR Contact</th>
-                        <th>Method <button class="sort-btn" onclick="sortByExternalLink()">â‡…</button></th>
+                        <th>Method <button class="sort-btn" onclick="sortByExternalLink()">â</button></th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -337,7 +337,7 @@
                         <span class="company-name">${job.Company}</span>
                     </td>
                     <td>
-                        ${hasHR ? `<a href="${job.HR_Link}" target="_blank" class="hr-link">ðŸ‘¤ ${job.HR_Name}</a>` : '<span style="color: var(--border)">â€”</span>'}
+                        ${hasHR ? `<a href="${job.HR_Link}" target="_blank" class="hr-link">ðŸ¤ ${job.HR_Name}</a>` : '<span style="color: var(--border)">â</span>'}
                     </td>
                     <td>
                         <span class="badge ${isEasy ? 'badge-easy' : 'badge-external'}">
