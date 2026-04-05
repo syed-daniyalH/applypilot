@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Applier | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #22c55e;
+            --accent: #eff6ff;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 2rem;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.025em;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Search & Controls */
+        .controls {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        #searchInput {
+            flex-grow: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Table Styling */
+        .table-container {
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg);
+            padding: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 1.25rem 1rem;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: var(--accent);
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .company-name {
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-easy {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-external {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .badge-applied {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .hr-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hr-link:hover {
+            color: var(--primary);
+        }
+
+        .sort-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-left: 0.25rem;
+            vertical-align: middle;
+        }
+
+        /* Loading States */
+        #loadingOverlay {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state {
+            padding: 4rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">L</div>
+            <span style="font-weight: 700; color: var(--text-main); font-size: 1.1rem;">LinkedIn AI Engine</span>
+        </div>
+    </nav>
+
+    <div class="container text-center">
+        <div class="header-section">
+            <h1>Applied Jobs History</h1>
+            <div id="lastUpdated" style="font-size: 0.75rem; color: var(--text-muted);"></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Applications</div>
+                <div id="totalApps" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Easy Apply</div>
+                <div id="easyApplyCount" class="stat-value">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">External Jobs</div>
+                <div id="externalCount" class="stat-value">0</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search by job title or company..." onkeyup="filterJobs()">
+        </div>
+
+        <div class="table-container">
+            <table id="jobsTable">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                        <th>Job Information</th>
+                        <th>HR Contact</th>
+                        <th>Method <button class="sort-btn" onclick="sortByExternalLink()">⇅</button></th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="jobsBody">
+                    <tr>
+                        <td colspan="5" id="loadingOverlay">Detecting job applications...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                No applications found matching your search.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let jobsData = [];
+        let sortOrder = 'asc';
+
+        async function fetchJobs() {
+            try {
+                const response = await fetch('http://localhost:5000/applied-jobs');
+                if (!response.ok) throw new Error('Failed to fetch');
+                const jobs = await response.json();
+                jobsData = jobs;
+                updateStats(jobs);
+                renderTable(jobs);
+                document.getElementById('lastUpdated').textContent = 'Last synced: ' + new Date().toLocaleTimeString();
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('jobsBody').innerHTML = '<tr><td colspan="5" style="text-align:center; color: #ef4444; padding: 2rem;">Error loading data. Make sure the backend is running.</td></tr>';
+            }
+        }
+
+        function updateStats(jobs) {
+            document.getElementById('totalApps').textContent = jobs.length;
+            const easy = jobs.filter(j => j.External_Job_link === 'Easy Applied').length;
+            document.getElementById('easyApplyCount').textContent = easy;
+            document.getElementById('externalCount').textContent = jobs.length - easy;
+        }
+
+        function renderTable(jobs) {
+            const tbody = document.getElementById('jobsBody');
+            tbody.innerHTML = '';
+
+            if (jobs.length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+            document.getElementById('emptyState').style.display = 'none';
+
+            jobs.forEach((job, index) => {
+                const row = document.createElement('tr');
+
+                const isEasy = job.External_Job_link === 'Easy Applied';
+                const hasHR = job.HR_Name && job.HR_Name !== 'Unknown' && job.HR_Name !== 'N/A';
+
+                row.innerHTML = `
+                    <td style="color: var(--text-muted); font-weight: 500;">${index + 1}</td>
+                    <td>
+                        <a href="${job.Job_Link}" target="_blank" class="job-title">${job.Title}</a>
+                        <span class="company-name">${job.Company}</span>
+                    </td>
+                    <td>
+                        ${hasHR ? `<a href="${job.HR_Link}" target="_blank" class="hr-link">👤 ${job.HR_Name}</a>` : '<span style="color: var(--border)">—</span>'}
+                    </td>
+                    <td>
+                        <span class="badge ${isEasy ? 'badge-easy' : 'badge-external'}">
+                            ${isEasy ? 'Easy Apply' : 'External'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge badge-applied">Applied</span>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterJobs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = jobsData.filter(j =>
+                j.Title.toLowerCase().includes(query) ||
+                j.Company.toLowerCase().includes(query)
+            );
+            renderTable(filtered);
+        }
+
+        function sortByExternalLink() {
+            sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+            jobsData.sort((a, b) => {
+                const valA = a.External_Job_link || '';
+                const valB = b.External_Job_link || '';
+                return sortOrder === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            });
+            renderTable(jobsData);
+        }
+
+        // Auto-refresh data every 10 seconds
+        fetchJobs();
+        setInterval(fetchJobs, 10000);
+    </script>
+</body>
+</html>

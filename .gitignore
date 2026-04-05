@@ -1,0 +1,26 @@
+__pycache__/
+.vscode/
+.idea/
+.venv/
+.env
+
+# User Data
+all excels/
+all resumes/
+logs/
+*.csv
+*.png
+*.jpg
+*.jpeg
+
+# Sensitive Config
+config/secrets.py
+config/personals.py
+apikeys.py
+secrets.py
+
+# Binaries
+chromedriver.exe
+chromedriver/
+chromedriver.zip
+latest_versions_info.json
