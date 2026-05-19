@@ -159,7 +159,7 @@ def validate_secrets() -> None | ValueError | TypeError:
 
     ##> ------ Daniyal - AI Automation Engineer ------
     # Validate DeepSeek configuration
-    check_string(ai_provider, "ai_provider", ["openai", "deepseek"])
+    check_string(ai_provider, "ai_provider", ["openai", "deepseek", "gemini"])
 
     ##> ------ Daniyal - AI Automation Engineer ------
     if ai_provider == "deepseek":
@@ -182,15 +182,11 @@ def validate_settings() -> None | ValueError | TypeError:
 
     check_boolean(close_tabs, "close_tabs")
     check_boolean(follow_companies, "follow_companies")
-    # check_boolean(connect_hr, "connect_hr")
-    # check_string(connect_request_message, "connect_request_message", min_length=10)
 
     check_boolean(run_non_stop, "run_non_stop")
     check_boolean(alternate_sortby, "alternate_sortby")
     check_boolean(cycle_date_posted, "cycle_date_posted")
     check_boolean(stop_date_cycle_at_24hr, "stop_date_cycle_at_24hr")
-
-    # check_string(generated_resume_path, "generated_resume_path", min_length=1)
 
     check_string(file_name, "file_name", min_length=1)
     check_string(failed_file_name, "failed_file_name", min_length=1)

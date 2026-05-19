@@ -1,12 +1,17 @@
 # ApplyPilot - LinkedIn AI Auto Job Applier
-This is a powerful web automation engine designed to simplify and accelerate your job search on LinkedIn. It intelligently searches for roles in your niche, automatically answers complex application forms, and can even tailor your resume using AI (OpenAI, Gemini, or DeepSeek) to match job requirements. 
+This is a powerful web automation engine designed to simplify and accelerate your job search on LinkedIn. It intelligently searches for roles in your niche, automatically answers complex application forms, and uploads your configured resume while applying. 
+
+## Demo Video
+If you want a quick walkthrough of how the system works, start here:
+
+- [Watch the demo video](./Linked%20In%20Automation.mp4)
 
 ## Key Features
 - **Smart Search**: Automated filtering and location-based job discovery.
 - **AI-Powered Answering**: Real-time form filling using LLMs for high accuracy.
 - **Modern Dashboard**: Track your applications and stats in a high-tech UI.
 - **Browser Stealth**: Human-like interaction and stealth mode to ensure account safety.
-- **Custom CV Integration**: Auto-uploads your best-fit resume for every application.
+- **Resume Upload Integration**: Auto-uploads your configured resume for applications.
 
 ## How to Install
 1. **Python 3.12+**: Download from [python.org](https://www.python.org/).
@@ -25,9 +30,9 @@ This is a powerful web automation engine designed to simplify and accelerate you
 5. **`config/settings.py`**: Adjust stealth mode, background run, and click intervals.
 
 ## How to Use
-1. **Launch the Bot**: Run `python runAiBot.py`.
+1. **Launch the Full Project**: Run `python main.py`.
 2. **Set Your Target**: Enter the number of jobs you want to apply to when prompted.
-3. **Monitor Progress**: Open `http://localhost:5000` after running `python app.py` to see your live dashboard.
+3. **Monitor Progress**: The launcher starts the dashboard automatically at `http://127.0.0.1:5000`.
 
 ## Security & Ethics
 This tool is built for personal productivity. Please adhere to LinkedIn's Terms of Service and use responsibly. Usage is at your own risk.

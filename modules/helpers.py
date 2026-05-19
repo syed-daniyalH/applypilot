@@ -48,13 +48,16 @@ def make_directories(paths: list[str]) -> None:
 
 
 def get_default_temp_profile() -> str:
-    # Thanks to https://github.com/vinodbavage31 for suggestion!
-    home = pathlib.Path.home()
-    if sys.platform.startswith('win'):
-        return "--user-data-dir=C:\\temp\\auto-job-apply-profile"
-    elif sys.platform.startswith('linux'):
-        return str(home / ".auto-job-apply-profile")
-    return str(home / "Library" / "Application Support" / "Google" / "Chrome" / "auto-job-apply-profile")
+    '''
+    Returns a unique per-run Chrome profile directory.
+    Using a fresh profile avoids stale DevTools port files and the expensive
+    retry path that can happen when an old guest profile is still locked.
+    '''
+    profiles_root = pathlib.Path(logs_folder_path).expanduser() / "browser-profiles"
+    profiles_root.mkdir(parents=True, exist_ok=True)
+    profile_dir = profiles_root / f"profile-{datetime.now().strftime('%Y%m%d-%H%M%S-%f')}"
+    profile_dir.mkdir(parents=True, exist_ok=True)
+    return f"--user-data-dir={profile_dir.resolve()}"
 
 
 def find_default_profile_directory() -> str | None:

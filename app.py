@@ -93,7 +93,8 @@ def update_applied_date(job_id):
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug_mode = os.getenv("FLASK_DEBUG", "").lower() in {"1", "true", "yes", "on"}
+    app.run(debug=debug_mode, use_reloader=debug_mode)
 
 ##<
 

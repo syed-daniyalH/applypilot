@@ -6,7 +6,7 @@ Version:    26.01.20.5.08
 '''
 
 from modules.helpers import get_default_temp_profile, make_directories
-from config.settings import run_in_background, stealth_mode, disable_extensions, safe_mode, file_name, failed_file_name, logs_folder_path, generated_resume_path
+from config.settings import run_in_background, stealth_mode, disable_extensions, safe_mode, file_name, failed_file_name, logs_folder_path
 from config.questions import default_resume_path
 if stealth_mode:
     import undetected_chromedriver as uc
@@ -20,7 +20,7 @@ from modules.helpers import find_default_profile_directory, critical_error_log, 
 from selenium.common.exceptions import SessionNotCreatedException
 
 def createChromeSession(isRetry: bool = False):
-    make_directories([file_name,failed_file_name,logs_folder_path+"/screenshots",default_resume_path,generated_resume_path+"/temp"])
+    make_directories([file_name, failed_file_name, logs_folder_path + "/screenshots", default_resume_path])
     # Set up WebDriver with Chrome Profile
     options = uc.ChromeOptions() if stealth_mode else Options()
     if run_in_background:   options.add_argument("--headless")
@@ -30,6 +30,7 @@ def createChromeSession(isRetry: bool = False):
     profile_dir = find_default_profile_directory()
     if isRetry:
         print_lg("Will login with a guest profile, browsing history will not be saved in the browser!")
+        options.add_argument(get_default_temp_profile())
     elif profile_dir and not safe_mode:
         options.add_argument(f"--user-data-dir={profile_dir}")
     else:

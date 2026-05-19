@@ -63,7 +63,6 @@
             letter-spacing: -0.025em;
         }
 
-        /* Stats Section */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -97,7 +96,6 @@
             color: var(--primary);
         }
 
-        /* Search & Controls */
         .controls {
             margin-bottom: 1.5rem;
             display: flex;
@@ -120,7 +118,6 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        /* Table Styling */
         .table-container {
             background: var(--surface);
             border-radius: 12px;
@@ -218,7 +215,6 @@
             vertical-align: middle;
         }
 
-        /* Loading States */
         #loadingOverlay {
             text-align: center;
             padding: 3rem;
@@ -272,7 +268,7 @@
                         <th style="width: 60px;">#</th>
                         <th>Job Information</th>
                         <th>HR Contact</th>
-                        <th>Method <button class="sort-btn" onclick="sortByExternalLink()">â</button></th>
+                        <th>Method <button class="sort-btn" onclick="sortByExternalLink()">^</button></th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -337,7 +333,7 @@
                         <span class="company-name">${job.Company}</span>
                     </td>
                     <td>
-                        ${hasHR ? `<a href="${job.HR_Link}" target="_blank" class="hr-link">ðŸ¤ ${job.HR_Name}</a>` : '<span style="color: var(--border)">â</span>'}
+                        ${hasHR ? `<a href="${job.HR_Link}" target="_blank" class="hr-link">HR: ${job.HR_Name}</a>` : '<span style="color: var(--border)">-</span>'}
                     </td>
                     <td>
                         <span class="badge ${isEasy ? 'badge-easy' : 'badge-external'}">
@@ -371,7 +367,6 @@
             renderTable(jobsData);
         }
 
-        // Auto-refresh data every 10 seconds
         fetchJobs();
         setInterval(fetchJobs, 10000);
     </script>

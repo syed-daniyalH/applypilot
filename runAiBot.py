@@ -45,7 +45,6 @@ from typing import Literal
 
 
 pyautogui.FAILSAFE = False
-# if use_resume_generator:    from resume_generator import is_logged_in_GPT, login_GPT, open_resume_chat, create_custom_resume
 
 
 #< Global Variables and logics
@@ -263,7 +262,7 @@ def apply_filters() -> None:
 
     except Exception as e:
         print_lg("Setting the preferences failed!")
-        pyautogui.confirm(f"Faced error while applying filters. Please make sure correct filters are selected, click on show results and click on any button of this dialog, I know it sucks. Can't turn off Pause after search when error occurs! ERROR: {e}", ["Doesn't look good, but Continue XD", "Look's good, Continue"])
+        pyautogui.confirm(f"Faced error while applying filters. Please make sure correct filters are selected, click on show results and click on any button of this dialog, I know it sucks. Can't turn off Pause after search when error occurs! ERROR: {e}", "Error", ["Doesn't look good, but Continue XD", "Look's good, Continue"])
         # print_lg(e)
 
 
@@ -431,10 +430,12 @@ def get_job_description(
 
 # Function to upload resume
 def upload_resume(modal: WebElement, resume: str) -> tuple[bool, str]:
-    try:
-        modal.find_element(By.NAME, "file").send_keys(os.path.abspath(resume))
-        return True, os.path.basename(default_resume_path)
-    except: return False, "Previous resume"
+    try:
+        modal.find_element(By.XPATH, './/input[@type="file"]').send_keys(os.path.abspath(resume))
+        return True, os.path.basename(default_resume_path)
+    except Exception as e:
+        print_lg(f"Failed to upload resume: {e}")
+        return False, "Previous resume"
 
 # Function to answer common questions for Easy Apply
 def answer_common_questions(label: str, answer: str) -> str:
@@ -945,22 +946,6 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                         hr_info_card = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.CLASS_NAME, "hirer-card__hirer-information")))
                         hr_link = hr_info_card.find_element(By.TAG_NAME, "a").get_attribute("href")
                         hr_name = hr_info_card.find_element(By.TAG_NAME, "span").text
-                        # if connect_hr:
-                        #     driver.switch_to.new_window('tab')
-                        #     driver.get(hr_link)
-                        #     wait_span_click("More")
-                        #     wait_span_click("Connect")
-                        #     wait_span_click("Add a note")
-                        #     message_box = driver.find_element(By.XPATH, "//textarea")
-                        #     message_box.send_keys(connect_request_message)
-                        #     if close_tabs: driver.close()
-                        #     driver.switch_to.window(linkedIn_tab)
-                        # def message_hr(hr_info_card):
-                        #     if not hr_info_card: return False
-                        #     hr_info_card.find_element(By.XPATH, ".//span[normalize-space()='Message']").click()
-                        #     message_box = driver.find_element(By.XPATH, "//div[@aria-label='Write a message']")
-                        #     message_box.send_keys()
-                        #     try_xp(driver, "//button[normalize-space()='Send']")
                     except Exception as e:
                         print_lg(f'HR info was not given for "{title}" with Job ID: {job_id}!')
                         # print_lg(e)
@@ -1014,8 +999,6 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                                 errored = ""
                                 modal = find_by_class(driver, "jobs-easy-apply-modal")
                                 wait_span_click(modal, "Next", 1)
-                                # if description != "Unknown":
-                                #     resume = create_custom_resume(description)
                                 resume = "Previous resume"
                                 next_button = True
                                 questions_list = set()
@@ -1083,7 +1066,7 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                         if skip: continue
 
                     submitted_jobs(job_id, title, company, work_location, work_style, description, experience_required, skills, hr_name, hr_link, resume, reposted, date_listed, date_applied, job_link, application_link, questions_list, connect_request)
-                    if uploaded:   useNewResume = False
+                    # if uploaded:   useNewResume = False  # Removed: resume is re-uploaded every application
 
                     print_lg(f'Successfully saved "{title} | {company}" job. Job ID: {job_id} info')
                     current_count += 1
@@ -1137,7 +1120,6 @@ def run(total_runs: int) -> int:
 
 
 
-chatGPT_tab = False
 linkedIn_tab = False
 
 def main() -> None:
@@ -1158,17 +1140,6 @@ def main() -> None:
 
         linkedIn_tab = driver.current_window_handle
 
-        # # Login to ChatGPT in a new tab for resume customization
-        # if use_resume_generator:
-        #     try:
-        #         driver.switch_to.new_window('tab')
-        #         driver.get("https://chat.openai.com/")
-        #         if not is_logged_in_GPT(): login_GPT()
-        #         open_resume_chat()
-        #         global chatGPT_tab
-        #         chatGPT_tab = driver.current_window_handle
-        #     except Exception as e:
-        #         print_lg("Opening OpenAI chatGPT tab failed!")
         if use_AI:
             if ai_provider == "openai":
                 aiClient = ai_create_openai_client()
